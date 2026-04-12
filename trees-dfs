@@ -1,0 +1,36 @@
+// ----------     Tree      --------------- // 
+vector<vector<int>> adj;
+vector<int> pre, in, post;
+
+// pre -> eg dfs(root,-1)
+void dfs_pre(int node, int parent){
+    pre.push_back(node); // before going to children
+    
+    for(auto child : adj[node]){
+        if(child == parent) continue;
+        dfs_pre(child, node);
+    }
+}
+
+// post
+void dfs_post(int node, int parent){
+    for(auto child : adj[node]){
+        if(child == parent) continue;
+        dfs_post(child, node);
+    }
+    
+    post.push_back(node); // after children
+}
+
+// in
+vector<int> leftChild, rightChild;
+
+void dfs_in(int node){
+    if(node == -1) return;
+
+    dfs_in(leftChild[node]);
+    
+    in.push_back(node);
+    
+    dfs_in(rightChild[node]);
+}
